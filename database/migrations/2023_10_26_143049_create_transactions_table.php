@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->float('amount')->default(0);
+            $table->enum('type', ['income', 'expense']);
+            $table->enum('category', ['wage', 'bonus', 'gift', 'food & drinks', 'shopping', 'charity', 'housing', 'insurance', 'taxes', 'transportation', 'uncategorized'])->default('uncategorized');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
