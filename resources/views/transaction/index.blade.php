@@ -83,11 +83,11 @@
                                             <td>
                                                 <a href="{{ route('transaction.show', $transaction) }}"
                                                     class="btn btn-info">
-                                                    <i class="bi bi-eye"></i> View
+                                                    View
                                                 </a>
                                                 <a href="{{ route('transaction.edit', $transaction) }}"
                                                     class="btn btn-primary">
-                                                    <i class="bi bi-pencil"></i> Edit
+                                                    Edit
                                                 </a>
                                                 <form action="{{ route('transaction.destroy', $transaction) }}"
                                                     class="d-inline" method="POST">
@@ -95,7 +95,7 @@
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger"
                                                         onclick="return confirm('Are you sure you want to delete this transaction?')">
-                                                        <i class="bi bi-trash"></i> Delete
+                                                        Delete
                                                     </button>
                                                 </form>
                                             </td>
