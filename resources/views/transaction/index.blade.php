@@ -15,17 +15,17 @@
                                 <tr>
                                     <th scope="row">Saldo</th>
                                     <th scope="row">:</th>
-                                    <td>{{ $balance }}</td>
+                                    <td>@currency($totalIncome - $totalExpense)</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Amount Income</th>
                                     <th scope="row">:</th>
-                                    <td>{{ $totalIncome }}</td>
+                                    <td>@currency($totalIncome)</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Amount Expense</th>
                                     <th scope="row">:</th>
-                                    <td>{{ $totalExpense }}</td>
+                                    <td>@currency($totalExpense)</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Income Transaction</th>
@@ -47,25 +47,59 @@
                 <div class="card border-success mb-3">
                     <div class="card-header bg-success text-white">Transactions List</div>
                     <div class="card-body">
+
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <div class="my-2">
+                            <a href="{{ route('transaction.create') }}"><button class="btn btn-success">Add New
+                                    Transaction</button></a>
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table table-bordered text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Jumlah</th>
-                                        <th>Tipe</th>
-                                        <th>Kategori</th>
-                                        <th>Catatan</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Category</th>
+                                        <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($transactions as $transaction)
                                         <tr>
                                             <td>{{ $transaction->created_at }}</td>
-                                            <td>{{ $transaction->amount }}</td>
+                                            <td>@currency($transaction->amount)</td>
                                             <td>{{ ucfirst($transaction->type) }}</td>
-                                            <td>{{ ucfirst($transaction->category) }}</td>
+                                            <td>{{ ucwords($transaction->category) }}</td>
                                             <td>{{ $transaction->notes }}</td>
+                                            <td>
+                                                <a href="{{ route('transaction.show', $transaction) }}"
+                                                    class="btn btn-info">
+                                                    <i class="bi bi-eye"></i> View
+                                                </a>
+                                                <a href="{{ route('transaction.edit', $transaction) }}"
+                                                    class="btn btn-primary">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </a>
+                                                <form action="{{ route('transaction.destroy', $transaction) }}"
+                                                    class="d-inline" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this transaction?')">
+                                                        <i class="bi bi-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>
